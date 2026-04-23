@@ -1,0 +1,52 @@
+@import "tailwindcss";
+@import "./fonts.css";
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px;
+}
+
+html,
+body {
+  width: 100%;
+  overflow-x: hidden;
+  font-family: "ibm-regular";
+  background-color: #f6f8f9;
+}
+
+@keyframes dot-pulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0.5;
+  }
+}
+
+.animate-dot-pulse {
+  animation: dot-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+img {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+@utility icon-green {
+  filter: brightness(0) saturate(100%) invert(16%) sepia(87%) saturate(1478%)
+    hue-rotate(124deg) brightness(93%) contrast(105%);
+}
+
+@utility icon-gold {
+  filter: brightness(0) saturate(100%) invert(43%) sepia(61%) saturate(3369%)
+    hue-rotate(34deg) brightness(94%) contrast(101%);
+}

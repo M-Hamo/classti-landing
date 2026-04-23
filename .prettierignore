@@ -1,0 +1,10 @@
+node_modules
+dist
+build
+public
+package-lock.json
+*.md
+.eslintrc.js
+eslint.config.js
+postcss.config.js
+tailwind.config.js
