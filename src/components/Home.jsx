@@ -5,6 +5,8 @@ import { AboutUs } from "./ui/AboutUs";
 import { ImageCarousel } from "./ui/ImageCarousel";
 import { Features } from "./ui/Features";
 import { Applications } from "./ui/Applications";
+import { ContactUs } from "./ui/ContactUs";
+import { Footer } from "./ui/Footer";
 
 import heroBg from "../assets/images/Hero Section.png";
 import banner1 from "../assets/images/banner-1.jpeg";
@@ -16,7 +18,7 @@ export const Home = () => {
   const bannerImages = [banner1, banner2, banner3];
 
   return (
-    <section className="relative flex min-h-screen w-full flex-col items-stretch justify-start pb-56">
+    <section className="relative flex min-h-screen w-full flex-col items-stretch justify-start">
       <div
         className="pointer-events-none absolute inset-0 h-[755px] w-auto overflow-hidden bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url(${heroBg})` }}
@@ -38,8 +40,11 @@ export const Home = () => {
           />
           <Features />
           <Applications />
+          <ContactUs />
         </section>
       </main>
+
+      <Footer />
     </section>
   );
 };

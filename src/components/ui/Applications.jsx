@@ -11,6 +11,7 @@ import featureBox1 from "../../assets/images/FeatureBox1.png";
 import featureBox2 from "../../assets/images/FeatureBox2.png";
 import featureBox3 from "../../assets/images/FeatureBox3.png";
 import featureBox4 from "../../assets/images/FeatureBox4.png";
+import dashboardMobile from "../../assets/images/dashboard-mobile.png";
 import appStore from "../../assets/icons/app_store.svg";
 import googlePlay from "../../assets/icons/google_play.svg";
 
@@ -223,34 +224,16 @@ export const Applications = () => {
             </div>
           </div>
 
-          {/* Center Phone Mockup Placeholder */}
+          {/* Center Phone Mockup */}
           <div className="z-10 my-8 flex w-full items-center justify-center lg:my-0 lg:w-1/3">
             <div className="relative flex h-[580px] w-[280px] items-center justify-center overflow-hidden rounded-[40px] border-[12px] border-[#1C1C1E] bg-white shadow-2xl">
               {/* Phone Notch */}
               <div className="absolute top-0 left-1/2 z-20 h-[25px] w-[120px] -translate-x-1/2 rounded-b-[20px] bg-[#1C1C1E]"></div>
-
-              {/* Placeholder Content */}
-              <div className="flex flex-col items-center justify-center px-4 text-center">
-                <svg
-                  className="mb-3 h-10 w-10 text-[#CCCCCC]"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.5}
-                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  />
-                </svg>
-                <span className="font-ibm-semiBold text-sm text-[#5B6161]">
-                  Placeholder
-                </span>
-                <span className="font-ibm-medium mt-1 text-xs text-[#999999]">
-                  Upload screenshot
-                </span>
-              </div>
+              <img
+                src={dashboardMobile}
+                alt="parent app"
+                className="h-full w-full object-cover"
+              />
             </div>
           </div>
 
