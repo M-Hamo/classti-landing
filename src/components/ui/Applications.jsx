@@ -13,6 +13,15 @@ import featureBox3 from "../../assets/images/FeatureBox3.png";
 import featureBox4 from "../../assets/images/FeatureBox4.png";
 import appStore from "../../assets/icons/app_store.svg";
 import googlePlay from "../../assets/icons/google_play.svg";
+import parentAppImg1 from "../../assets/images/app1.png";
+import parentAppImg2 from "../../assets/images/app2.png";
+import parentAppImg3 from "../../assets/images/app3.png";
+import parentAppImg4 from "../../assets/images/app4.png";
+import parentAppIcon1 from "../../assets/icons/fi_2073059.svg";
+import parentAppIcon2 from "../../assets/icons/fi_4643839.svg";
+import parentAppIcon3 from "../../assets/icons/fi_681443.svg";
+import parentAppIcon4 from "../../assets/icons/fi_4860474.svg";
+import ellipse from "../../assets/images/Ellipse.png";
 
 export const Applications = () => {
   const { t } = useTranslation();
@@ -44,7 +53,35 @@ export const Applications = () => {
     },
   ];
 
+  const parentAppTabs = [
+    {
+      title: t("parent_feature_1_title"),
+      desc: t("parent_feature_1_desc"),
+      icon: parentAppIcon3,
+      img: parentAppImg3,
+    },
+    {
+      title: t("parent_feature_2_title"),
+      desc: t("parent_feature_2_desc"),
+      icon: parentAppIcon4,
+      img: parentAppImg4,
+    },
+    {
+      title: t("parent_feature_3_title"),
+      desc: t("parent_feature_3_desc"),
+      icon: parentAppIcon1,
+      img: parentAppImg1,
+    },
+    {
+      title: t("parent_feature_4_title"),
+      desc: t("parent_feature_4_desc"),
+      icon: parentAppIcon2,
+      img: parentAppImg2,
+    },
+  ];
+
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [parentSelectedIndex, setParentSelectedIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -55,6 +92,16 @@ export const Applications = () => {
 
     return () => clearInterval(interval);
   }, [tabs.length, selectedIndex]);
+
+  useEffect(() => {
+    const parentInterval = setInterval(() => {
+      setParentSelectedIndex((prevIndex) =>
+        prevIndex === parentAppTabs.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 3000);
+
+    return () => clearInterval(parentInterval);
+  }, [parentAppTabs.length, parentSelectedIndex]);
 
   return (
     <>
@@ -79,7 +126,7 @@ export const Applications = () => {
 
           <div className="relative z-10 flex flex-col items-center justify-center gap-4 px-4 md:gap-6">
             <div className="flex flex-col items-center justify-center gap-2 md:gap-3">
-              <h1 className="font-ibm-bold text-[24px] md:text-[32px]">
+              <h2 className="font-ibm-bold text-[24px] md:text-[32px]">
                 <Trans
                   i18nKey="applications_title"
                   components={[
@@ -89,7 +136,7 @@ export const Applications = () => {
                     />,
                   ]}
                 />
-              </h1>
+              </h2>
 
               <p className="font-ibm-medium text-center text-xs whitespace-pre-line text-[#5B6161] md:text-base">
                 {t("applications_desc")}
@@ -98,7 +145,7 @@ export const Applications = () => {
           </div>
 
           <div className="mx-auto w-full md:w-[90%]">
-            <div className="grid-col-2 grid gap-4 px-4 md:grid-cols-2 md:gap-9.5">
+            <div className="grid-col-1 grid w-full gap-4 px-4 md:grid-cols-2 md:gap-9.5">
               <div className="flex flex-col items-stretch justify-center gap-4 md:gap-6">
                 {tabs[selectedIndex].img && (
                   <img
@@ -108,6 +155,7 @@ export const Applications = () => {
                   />
                 )}
               </div>
+
               <div className="flex flex-col items-stretch justify-center gap-4 md:gap-6">
                 {tabs.map((item, idx) => (
                   <button
@@ -158,10 +206,8 @@ export const Applications = () => {
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="relative mx-[-4%] flex flex-col items-stretch justify-start gap-6 py-3 md:mx-[-7%] md:gap-8 md:py-4">
-          <div className="flex flex-col items-center justify-center gap-4 px-4 md:gap-6">
+          <div className="MT-4 relative z-10 mt-8 flex flex-col items-center justify-center gap-4 px-4 md:gap-6">
             <div className="flex flex-col items-center justify-center gap-2 md:gap-3">
               <h2 className="font-ibm-bold text-[24px] md:text-[32px]">
                 <Trans
@@ -174,115 +220,177 @@ export const Applications = () => {
                   ]}
                 />
               </h2>
-              <p className="font-ibm-medium max-w-[600px] text-xs whitespace-pre-line text-[#5B6161] md:text-base">
+
+              <p className="font-ibm-medium text-center text-xs whitespace-pre-line text-[#5B6161] md:text-base">
                 {t("parent_app_desc")}
               </p>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* PARENT APP SHOWCASE */}
-      <section className="relative mt-16 flex flex-col items-center justify-start gap-8 pb-16 md:mt-24 md:gap-12">
-        <div className="flex flex-col items-center justify-center gap-2 px-4 text-center md:gap-3"></div>
-
-        <div className="relative mx-auto mt-4 flex w-full max-w-[1200px] flex-col items-center justify-between gap-8 px-4 lg:mt-12 lg:flex-row lg:items-center lg:gap-4 lg:px-8">
-          {/* Background Radial Glow */}
-          <div className="pointer-events-none absolute top-1/2 left-1/2 -z-10 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#E5FFF4] opacity-60 blur-[100px]"></div>
-
-          {/* Right Cards (First in DOM for RTL) */}
-          <div className="flex w-full flex-col gap-6 lg:w-1/3 lg:gap-16">
-            {/* Card 3 (Green) */}
-            <div className="flex items-center justify-start gap-4 rounded-3xl border-2 border-[#009957] bg-white p-4 shadow-sm shadow-[#E6E6E6]">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#CCFFE9] bg-[#E5FFF4]">
-                <img src={icon3} alt="icon" className="icon-green h-6 w-6" />
-              </div>
-              <div className="flex flex-grow flex-col items-start justify-center gap-1 md:gap-2">
-                <h4 className="font-ibm-bold text-base text-[#0E1F1F]">
-                  {t("parent_feature_3_title")}
-                </h4>
-                <p className="font-ibm-medium text-xs leading-[20px] text-[#5B6161]">
-                  {t("parent_feature_3_desc")}
-                </p>
-              </div>
-            </div>
-
-            {/* Card 4 */}
-            <div className="flex items-center justify-start gap-4 rounded-3xl border border-[#E6E6E6] bg-white p-4 shadow-sm shadow-[#E6E6E6]">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#F4F4D1] bg-[#F9F9E9]">
-                <img src={icon4} alt="icon" className="icon-gold h-6 w-6" />
-              </div>
-              <div className="flex flex-grow flex-col items-start justify-center gap-1 md:gap-2">
-                <h4 className="font-ibm-bold text-base text-[#0E1F1F]">
-                  {t("parent_feature_4_title")}
-                </h4>
-                <p className="font-ibm-medium text-xs leading-[20px] text-[#5B6161]">
-                  {t("parent_feature_4_desc")}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Center Phone Mockup Placeholder */}
-          <div className="z-10 my-8 flex w-full items-center justify-center lg:my-0 lg:w-1/3">
-            <div className="relative flex h-[580px] w-[280px] items-center justify-center overflow-hidden rounded-[40px] border-[12px] border-[#1C1C1E] bg-white shadow-2xl">
-              {/* Phone Notch */}
-              <div className="absolute top-0 left-1/2 z-20 h-[25px] w-[120px] -translate-x-1/2 rounded-b-[20px] bg-[#1C1C1E]"></div>
-
-              {/* Placeholder Content */}
-              <div className="flex flex-col items-center justify-center px-4 text-center">
-                <svg
-                  className="mb-3 h-10 w-10 text-[#CCCCCC]"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+          <div className="mx-auto w-full md:w-[90%]">
+            <div className="grid-col-1 grid w-full gap-4 px-4 md:grid-cols-4 md:gap-9.5">
+              <div className="hidden h-full flex-col items-stretch justify-around md:flex">
+                <button
+                  className={`group flex min-h-[88px] cursor-pointer items-start justify-start gap-3 rounded-2xl border border-[#E6E6E6] bg-white p-3 transition-all duration-300 ease-in-out outline-none hover:border-[#009957] hover:shadow-sm active:scale-105 ${parentSelectedIndex === 2 ? "scale-105! border-[#009957]! shadow-sm!" : ""}`}
+                  onClick={() => setParentSelectedIndex(2)}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.5}
-                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  <div
+                    className={`flex h-10 w-10 items-center justify-center rounded-lg border group-hover:border-[#CCFFE9] group-hover:bg-[#E5FFF4] ${parentSelectedIndex === 2 ? "border-[#CCFFE9] bg-[#E5FFF4]" : "border-[#F4F4D1] bg-[#F9F9E9]"}`}
+                  >
+                    <img
+                      src={parentAppTabs[2].icon}
+                      alt="icon"
+                      className={`h-5 w-5 ${parentSelectedIndex === 2 ? "icon-green" : "icon-gold group-hover:icon-green"}`}
+                    />
+                  </div>
+
+                  <div className="flex flex-col items-start justify-center gap-1">
+                    <h4
+                      className={`font-ibm-medium group-hover:font-ibm-semiBold text-base leading-[27px] transition-all duration-300 ease-in group-hover:text-[#00512E] ${parentSelectedIndex === 2 ? "font-ibm-semiBold text-[#00512E]" : "text-[#0E1F1F]"}`}
+                    >
+                      {t(parentAppTabs[2].title)}
+                    </h4>
+
+                    <p className="font-ibm-regular text-start text-sm leading-[27px] text-[#5B6161]">
+                      {t(parentAppTabs[2].desc)}
+                    </p>
+                  </div>
+                </button>
+
+                <button
+                  className={`group flex min-h-[88px] cursor-pointer items-start justify-start gap-3 rounded-2xl border border-[#E6E6E6] bg-white p-3 transition-all duration-300 ease-in-out outline-none hover:border-[#009957] hover:shadow-sm active:scale-105 ${parentSelectedIndex === 3 ? "scale-105! border-[#009957]! shadow-sm!" : ""}`}
+                  onClick={() => setParentSelectedIndex(3)}
+                >
+                  <div
+                    className={`flex h-10 w-10 items-center justify-center rounded-lg border group-hover:border-[#CCFFE9] group-hover:bg-[#E5FFF4] ${parentSelectedIndex === 3 ? "border-[#CCFFE9] bg-[#E5FFF4]" : "border-[#F4F4D1] bg-[#F9F9E9]"}`}
+                  >
+                    <img
+                      src={parentAppTabs[3].icon}
+                      alt="icon"
+                      className={`h-5 w-5 ${parentSelectedIndex === 3 ? "icon-green" : "icon-gold group-hover:icon-green"}`}
+                    />
+                  </div>
+
+                  <div className="flex flex-col items-start justify-center gap-1">
+                    <h4
+                      className={`font-ibm-medium group-hover:font-ibm-semiBold text-base leading-[27px] transition-all duration-300 ease-in group-hover:text-[#00512E] ${parentSelectedIndex === 3 ? "font-ibm-semiBold text-[#00512E]" : "text-[#0E1F1F]"}`}
+                    >
+                      {t(parentAppTabs[3].title)}
+                    </h4>
+
+                    <p className="font-ibm-regular text-start text-sm leading-[27px] text-[#5B6161]">
+                      {t(parentAppTabs[3].desc)}
+                    </p>
+                  </div>
+                </button>
+              </div>
+
+              <div className="relative flex h-full items-center justify-center overflow-hidden rounded-lg bg-cover bg-center bg-no-repeat md:col-span-2">
+                <div
+                  className="absolute top-1/2 left-1/2 z-0 h-[715.56px] w-[1007.41px] -translate-x-1/2 -translate-y-1/2"
+                  style={{
+                    backgroundImage: `url(${ellipse})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    opacity: 0.4,
+                  }}
+                ></div>
+
+                {parentAppTabs[parentSelectedIndex].img && (
+                  <img
+                    src={parentAppTabs[parentSelectedIndex].img}
+                    alt="feature"
+                    className="z-50 h-[546.98px] w-full md:h-[662.53px] md:max-w-[335.81px]"
                   />
-                </svg>
-                <span className="font-ibm-semiBold text-sm text-[#5B6161]">
-                  Placeholder
-                </span>
-                <span className="font-ibm-medium mt-1 text-xs text-[#999999]">
-                  Upload screenshot
-                </span>
+                )}
               </div>
-            </div>
-          </div>
 
-          {/* Left Cards (Last in DOM for RTL) */}
-          <div className="flex w-full flex-col gap-6 lg:w-1/3 lg:gap-16">
-            {/* Card 1 */}
-            <div className="flex items-center justify-start gap-4 rounded-3xl border border-[#E6E6E6] bg-white p-4 shadow-sm shadow-[#E6E6E6]">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#F4F4D1] bg-[#F9F9E9]">
-                <img src={icon1} alt="icon" className="icon-gold h-6 w-6" />
-              </div>
-              <div className="flex flex-grow flex-col items-start justify-center gap-1 md:gap-2">
-                <h4 className="font-ibm-bold text-base text-[#0E1F1F]">
-                  {t("parent_feature_1_title")}
-                </h4>
-                <p className="font-ibm-medium text-xs leading-[20px] text-[#5B6161]">
-                  {t("parent_feature_1_desc")}
-                </p>
-              </div>
-            </div>
+              <div className="hidden h-full flex-col items-stretch justify-around md:flex">
+                <button
+                  className={`group flex min-h-[88px] cursor-pointer items-start justify-start gap-3 rounded-2xl border border-[#E6E6E6] bg-white p-3 transition-all duration-300 ease-in-out outline-none hover:border-[#009957] hover:shadow-sm active:scale-105 ${parentSelectedIndex === 0 ? "scale-105! border-[#009957]! shadow-sm!" : ""}`}
+                  onClick={() => setParentSelectedIndex(0)}
+                >
+                  <div
+                    className={`flex h-10 w-10 items-center justify-center rounded-lg border group-hover:border-[#CCFFE9] group-hover:bg-[#E5FFF4] ${parentSelectedIndex === 0 ? "border-[#CCFFE9] bg-[#E5FFF4]" : "border-[#F4F4D1] bg-[#F9F9E9]"}`}
+                  >
+                    <img
+                      src={parentAppTabs[0].icon}
+                      alt="icon"
+                      className={`h-5 w-5 ${parentSelectedIndex === 0 ? "icon-green" : "icon-gold group-hover:icon-green"}`}
+                    />
+                  </div>
 
-            {/* Card 2 */}
-            <div className="flex items-center justify-start gap-4 rounded-3xl border border-[#E6E6E6] bg-white p-4 shadow-sm shadow-[#E6E6E6]">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#F4F4D1] bg-[#F9F9E9]">
-                <img src={icon2} alt="icon" className="icon-gold h-6 w-6" />
+                  <div className="flex flex-col items-start justify-center gap-1">
+                    <h4
+                      className={`font-ibm-medium group-hover:font-ibm-semiBold text-base leading-[27px] transition-all duration-300 ease-in group-hover:text-[#00512E] ${parentSelectedIndex === 0 ? "font-ibm-semiBold text-[#00512E]" : "text-[#0E1F1F]"}`}
+                    >
+                      {t(parentAppTabs[0].title)}
+                    </h4>
+
+                    <p className="font-ibm-regular text-start text-sm leading-[27px] text-[#5B6161]">
+                      {t(parentAppTabs[0].desc)}
+                    </p>
+                  </div>
+                </button>
+
+                <button
+                  className={`group flex min-h-[88px] cursor-pointer items-start justify-start gap-3 rounded-2xl border border-[#E6E6E6] bg-white p-3 transition-all duration-300 ease-in-out outline-none hover:border-[#009957] hover:shadow-sm active:scale-105 ${parentSelectedIndex === 1 ? "scale-105! border-[#009957]! shadow-sm!" : ""}`}
+                  onClick={() => setParentSelectedIndex(1)}
+                >
+                  <div
+                    className={`flex h-10 w-10 items-center justify-center rounded-lg border group-hover:border-[#CCFFE9] group-hover:bg-[#E5FFF4] ${parentSelectedIndex === 1 ? "border-[#CCFFE9] bg-[#E5FFF4]" : "border-[#F4F4D1] bg-[#F9F9E9]"}`}
+                  >
+                    <img
+                      src={parentAppTabs[1].icon}
+                      alt="icon"
+                      className={`h-5 w-5 ${parentSelectedIndex === 1 ? "icon-green" : "icon-gold group-hover:icon-green"}`}
+                    />
+                  </div>
+
+                  <div className="flex flex-col items-start justify-center gap-1">
+                    <h4
+                      className={`font-ibm-medium group-hover:font-ibm-semiBold text-base leading-[27px] transition-all duration-300 ease-in group-hover:text-[#00512E] ${parentSelectedIndex === 1 ? "font-ibm-semiBold text-[#00512E]" : "text-[#0E1F1F]"}`}
+                    >
+                      {t(parentAppTabs[1].title)}
+                    </h4>
+
+                    <p className="font-ibm-regular text-start text-sm leading-[27px] text-[#5B6161]">
+                      {t(parentAppTabs[1].desc)}
+                    </p>
+                  </div>
+                </button>
               </div>
-              <div className="flex flex-grow flex-col items-start justify-center gap-1 md:gap-2">
-                <h4 className="font-ibm-bold text-base text-[#0E1F1F]">
-                  {t("parent_feature_2_title")}
-                </h4>
-                <p className="font-ibm-medium text-xs leading-[20px] text-[#5B6161]">
-                  {t("parent_feature_2_desc")}
-                </p>
+
+              <div className="flex flex-col items-stretch justify-center gap-4 md:hidden md:gap-6">
+                {parentAppTabs.map((item, idx) => (
+                  <button
+                    key={idx}
+                    className={`group flex min-h-[88px] cursor-pointer items-start justify-start gap-3 rounded-2xl border border-[#E6E6E6] bg-white p-3 transition-all duration-300 ease-in-out outline-none hover:border-[#009957] hover:bg-[#F7F7F7] hover:shadow-sm active:scale-105 ${idx === parentSelectedIndex ? "scale-105! border-[#009957]! bg-white! shadow-sm!" : ""}`}
+                    onClick={() => setParentSelectedIndex(idx)}
+                  >
+                    <div
+                      className={`flex h-10 w-10 items-center justify-center rounded-lg border group-hover:border-[#CCFFE9] group-hover:bg-[#E5FFF4] ${idx === parentSelectedIndex ? "border-[#CCFFE9] bg-[#E5FFF4]" : "border-[#F4F4D1] bg-[#F9F9E9]"}`}
+                    >
+                      <img
+                        src={item.icon}
+                        alt="icon"
+                        className={`h-5 w-5 ${idx === parentSelectedIndex ? "icon-green" : "icon-gold group-hover:icon-green"}`}
+                      />
+                    </div>
+
+                    <div className="flex flex-col items-start justify-center gap-1">
+                      <h4
+                        className={`font-ibm-medium group-hover:font-ibm-semiBold text-base leading-[27px] transition-all duration-300 ease-in group-hover:text-[#00512E] ${idx === selectedIndex ? "font-ibm-semiBold text-[#00512E]" : "text-[#0E1F1F]"}`}
+                      >
+                        {t(item.title)}
+                      </h4>
+
+                      <p className="font-ibm-regular text-start text-sm leading-[27px] text-[#5B6161]">
+                        {t(item.desc)}
+                      </p>
+                    </div>
+                  </button>
+                ))}
               </div>
             </div>
           </div>

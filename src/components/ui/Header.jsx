@@ -28,7 +28,7 @@ export const Header = () => {
     { name: t("nav_about"), href: "#about" },
     { name: t("nav_how_it_works"), href: "#howItWorks" },
     { name: t("nav_features"), href: "#applications" },
-    { name: t("nav_contact"), href: "#contact" },
+    { name: t("nav_contact"), href: "#contactUs" },
   ];
 
   return (

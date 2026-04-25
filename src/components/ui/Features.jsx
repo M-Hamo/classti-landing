@@ -113,9 +113,9 @@ export const Features = () => {
         </div>
 
         <div className="flex flex-col items-center justify-center gap-2 md:gap-3">
-          <h1 className="font-ibm-bold text-[24px] md:text-[32px]">
+          <h2 className="font-ibm-bold text-[24px] md:text-[32px]">
             {t("features_title")}
-          </h1>
+          </h2>
           <p className="font-ibm-medium text-center text-xs text-[#5B6161] md:text-base">
             {t("features_desc")}
           </p>
