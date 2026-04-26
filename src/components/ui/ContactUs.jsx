@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useTranslation, Trans } from "react-i18next";
 import { Toaster } from "./Toaster";
-import { Toaster } from "./Toaster";
 
 import contact from "../../assets/images/contact_us.png";
 import phoneIcon from "../../assets/icons/fi_5291831.svg";
@@ -11,13 +10,6 @@ import whatsappIcon from "../../assets/icons/fi_1419661.svg";
 
 export const ContactUs = () => {
   const { t } = useTranslation();
-  const [showToaster, setShowToaster] = useState(false);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Simulate form submission
-    setShowToaster(true);
-  };
   const [showToaster, setShowToaster] = useState(false);
 
   const handleSubmit = (e) => {
