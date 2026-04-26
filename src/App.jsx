@@ -6,6 +6,7 @@ import { ForgetPassword } from "./components/ForgetPassword";
 import { Otp } from "./components/Otp";
 import { ResetPassword } from "./components/ResetPassword";
 import Register from "./components/Register";
+import NotFound from "./components/NotFound";
 
 import "./styles/index.css";
 
@@ -20,7 +21,7 @@ export const App = () => {
       <Route path="/forget-password" element={<ForgetPassword />} />
       <Route path="/otp" element={<Otp />} />
       <Route path="/reset-password" element={<ResetPassword />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };
