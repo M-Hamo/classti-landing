@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { ToggleLang } from "./ToggleLang";
 import menuIcon from "../../assets/icons/menu-01.svg";
 
@@ -66,9 +66,12 @@ export const Header = () => {
         <div className="flex items-center gap-3">
           <ToggleLang className="hidden lg:flex" />
 
-          <button className="font-ibm-semiBold h-12 cursor-pointer rounded-xl bg-[#00512E] px-8 text-base text-white transition-transform hover:bg-[#00512E]/90 active:scale-[0.98]">
+          <Link
+            to="/login"
+            className="font-ibm-semiBold flex h-12 cursor-pointer items-center justify-center rounded-xl bg-[#00512E] px-8 text-base text-white transition-transform hover:bg-[#00512E]/90 active:scale-[0.98]"
+          >
             {t("login")}
-          </button>
+          </Link>
         </div>
       </header>
 

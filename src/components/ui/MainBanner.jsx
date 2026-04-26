@@ -84,7 +84,7 @@ export const MainBanner = () => {
         </div>
         <div className="flex flex-col items-center justify-center gap-1 md:gap-2">
           <span className="font-ibm-bold text-[24px] text-[#00512E] md:text-[32px]">
-            +5 {t("million")}
+            + {t("million")}
           </span>
           <span className="font-ibm-medium text-xs text-[#5B6161] md:text-xl">
             {t("student")}

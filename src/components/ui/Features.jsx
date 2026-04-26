@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   BarChart,
   Bar,
@@ -29,6 +29,32 @@ import moveIcon from "../../assets/icons/move.svg";
 
 export const Features = () => {
   const { t, i18n } = useTranslation();
+  const containerRef = useRef(null);
+  const [sliderValue, setSliderValue] = useState(25);
+  const [isDragging, setIsDragging] = useState(false);
+
+  const handlePointerMove = (e) => {
+    if (!isDragging || !containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+    const percent = Math.min(Math.max((x / rect.width) * 100, 0), 100);
+    setSliderValue(percent);
+  };
+
+  const handlePointerDown = (e) => {
+    setIsDragging(true);
+    if (e.target instanceof Element) {
+      e.target.setPointerCapture(e.pointerId);
+    }
+  };
+
+  const handlePointerUp = (e) => {
+    setIsDragging(false);
+    if (e.target instanceof Element) {
+      e.target.releasePointerCapture(e.pointerId);
+    }
+  };
+
   const activityList = [
     {
       title: "task_completion",
@@ -57,8 +83,6 @@ export const Features = () => {
     title: `${item.title}_bad`,
     desc: `${item.desc}_bad`,
   }));
-
-  const [sliderValue, setSliderValue] = useState(25);
 
   const chartData = [
     { name: t("subject_english"), uv: 40 },
@@ -426,7 +450,10 @@ export const Features = () => {
           </div>
         </div>
 
-        <div className="relative flex min-h-[400px] flex-col items-stretch justify-start rounded-3xl bg-white p-4 shadow-sm shadow-[#E6E6E6] md:p-6 lg:col-span-3">
+        <div
+          ref={containerRef}
+          className="relative flex min-h-[400px] flex-col items-stretch justify-start rounded-3xl bg-white p-4 shadow-sm shadow-[#E6E6E6] md:p-6 lg:col-span-3"
+        >
           <div className="relative z-0 flex w-full flex-grow flex-col items-stretch justify-start gap-4 md:gap-6">
             {activityList.map((item, idx) => (
               <div
@@ -475,11 +502,17 @@ export const Features = () => {
           </div>
 
           <div
-            className="pointer-events-none absolute top-0 bottom-0 z-10 w-1 bg-[#00512E]"
+            className="absolute top-0 bottom-0 z-20 flex w-10 -translate-x-1/2 cursor-ew-resize items-center justify-center touch-none"
             style={{ left: `${sliderValue}%` }}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerUp}
           >
+            <div className="h-full w-1 bg-[#00512E] pointer-events-none" />
+
             <div
-              className="absolute top-16 left-1/2 flex -translate-x-1/2 items-center justify-center gap-6"
+              className="absolute top-16 flex items-center justify-center gap-6 pointer-events-none"
               dir="ltr"
             >
               <div className="font-ibm-semiBold flex h-[27px] items-center rounded-full bg-[#EF4444] px-3 text-center text-sm text-white shadow-sm">
@@ -490,20 +523,10 @@ export const Features = () => {
               </div>
             </div>
 
-            <div className="absolute top-2/3 left-1/2 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[#E6E6E6] bg-white shadow-md">
+            <div className="absolute top-2/3 flex h-12 w-12 items-center justify-center rounded-full border border-[#E6E6E6] bg-white shadow-md pointer-events-none">
               <img src={moveIcon} alt="move" className="h-6 w-6" />
             </div>
           </div>
-
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={sliderValue}
-            onChange={(e) => setSliderValue(e.target.value)}
-            className="absolute inset-0 z-20 m-0 h-full w-full cursor-ew-resize opacity-0"
-            dir="ltr"
-          />
         </div>
       </div>
     </section>
