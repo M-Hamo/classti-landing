@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { useTranslation, Trans } from "react-i18next";
+import { Toaster } from "./Toaster";
 
 import contact from "../../assets/images/contact_us.png";
 import phoneIcon from "../../assets/icons/fi_5291831.svg";
@@ -8,6 +10,13 @@ import whatsappIcon from "../../assets/icons/fi_1419661.svg";
 
 export const ContactUs = () => {
   const { t } = useTranslation();
+  const [showToaster, setShowToaster] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Simulate form submission
+    setShowToaster(true);
+  };
 
   return (
     <section
@@ -80,7 +89,10 @@ export const ContactUs = () => {
         </div>
       </div>
 
-      <form className="flex flex-col items-stretch justify-start gap-6">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col items-stretch justify-start gap-6"
+      >
         <div className="flex flex-col items-start justify-start gap-2">
           <label htmlFor="fullName" className="font-ibm-medium text-base text-white">
             {t("full_name")}
@@ -126,6 +138,7 @@ export const ContactUs = () => {
           </button>
         </div>
       </form>
+      <Toaster show={showToaster} onClose={() => setShowToaster(false)} />
     </section>
   );
 };
