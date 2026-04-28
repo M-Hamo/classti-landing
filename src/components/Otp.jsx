@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { AuthBody } from "./ui/AuthBody";
+import { AuthLayout } from "./ui/AuthLayout";
 
 export const Otp = () => {
   const { t } = useTranslation();
@@ -59,7 +59,7 @@ export const Otp = () => {
   };
 
   return (
-    <AuthBody hideBackButton={true}>
+    <AuthLayout>
       <div className="flex flex-col items-stretch justify-start gap-3">
         <h2 className="font-ibm-bold text-start text-2xl text-[#0E1F1F]">
           {t("forget_password_title")}
@@ -126,6 +126,6 @@ export const Otp = () => {
           </button>
         </form>
       </div>
-    </AuthBody>
+    </AuthLayout>
   );
 };

@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, Link } from "react-router-dom";
 import { ToggleLang } from "./ToggleLang";
+
+import logo from "../../assets/icons/logo.svg";
+import fi_1077063 from "../../assets/icons/fi_1077063.svg";
 import menuIcon from "../../assets/icons/menu-01.svg";
 
 export const Header = () => {
@@ -38,9 +41,7 @@ export const Header = () => {
           isScrolled ? "top-0 " : "top-5"
         }`}
       >
-        <span className="font-ibm-bold hidden text-2xl leading-8 text-[#565656] lg:block">
-          Class<span className="text-[#009957]">ti</span>
-        </span>
+        <img src={logo} alt="logo" className="hidden h-8 w-28 lg:block" />
 
         <nav className="hidden items-center gap-6 lg:flex">
           {headerLinks.map((link) => (
@@ -56,21 +57,32 @@ export const Header = () => {
           ))}
         </nav>
 
-        <button
-          onClick={() => setIsMenuOpen(true)}
-          className="flex h-10 w-10 cursor-pointer items-center justify-center border-none outline-none lg:hidden"
-        >
-          <img src={menuIcon} alt="menu" className="h-6 w-6" />
-        </button>
+        <div className="flex items-center justify-center gap-2 lg:hidden">
+          <button
+            onClick={() => setIsMenuOpen(true)}
+            className="flex h-10 w-10 cursor-pointer items-center justify-center border-none outline-none"
+          >
+            <img src={menuIcon} alt="menu" className="h-6 w-6" />
+          </button>
+
+          <img src={logo} alt="logo" className="block h-6 w-20" />
+        </div>
 
         <div className="flex items-center gap-3">
           <ToggleLang className="hidden lg:flex" />
 
           <Link
             to="/login"
-            className="font-ibm-semiBold flex h-12 cursor-pointer items-center justify-center rounded-xl bg-[#00512E] px-8 text-base text-white transition-transform hover:bg-[#00512E]/90 active:scale-[0.98]"
+            className="font-ibm-semiBold hidden h-12 cursor-pointer items-center justify-center rounded-xl bg-[#00512E] px-8 text-base text-white transition-transform hover:bg-[#00512E]/90 active:scale-[0.98] lg:flex"
           >
             {t("login")}
+          </Link>
+
+          <Link
+            to="/login"
+            className="font-ibm-semiBold flex h-8 w-8 cursor-pointer items-center justify-center rounded-xl bg-[#00512E] text-base text-white transition-transform hover:bg-[#00512E]/90 active:scale-[0.98] lg:hidden"
+          >
+            <img src={fi_1077063} alt="logo" className="block h-4 w-4" />
           </Link>
         </div>
       </header>
@@ -95,10 +107,6 @@ export const Header = () => {
           }`}
         >
           <div className="flex h-full flex-col items-stretch justify-start gap-5">
-            <h1 className="font-ibm-bold text-2xl leading-8 text-[#565656]">
-              Class<span className="text-[#009957]">ti</span>
-            </h1>
-
             <nav className="flex flex-col items-stretch justify-start gap-3">
               {headerLinks.map((link) => (
                 <a

@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import footer from "../../assets/images/footer.jpg";
+import logo2 from "../../assets/icons/logo2.svg";
 import snapchatIcon from "../../assets/icons/fi_21752878.svg";
 import tiktokIcon from "../../assets/icons/fi_3938055.svg";
 import youtubeIcon from "../../assets/icons/fi_3669688.svg";
@@ -44,10 +45,9 @@ export const Footer = () => {
       }}
     >
       <div className="grid grid-cols-1 gap-8 md:grid-cols-4 md:gap-4">
-        <div className="flex flex-col items-start justify-start gap-3 md:col-span-2 md:gap-6">
-          <h2 className="font-ibm-bold text-2xl leading-8 text-white">
-            Class<span className="text-[#009957]">ti</span>
-          </h2>
+        <div className="flex flex-col items-start justify-start gap-2 md:col-span-2">
+          <img src={logo2} alt="logo2" className="block h-8 w-20" />
+
           <p className="font-ibm-regular max-w-sm text-xs leading-6 text-[#EEEEEE]">
             {t("footer_desc")}
           </p>

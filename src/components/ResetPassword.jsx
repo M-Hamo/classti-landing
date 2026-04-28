@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
-import { AuthBody } from "./ui/AuthBody";
+import { AuthLayout } from "./ui/AuthLayout";
 
 export const ResetPassword = () => {
   const { t } = useTranslation();
@@ -23,7 +23,7 @@ export const ResetPassword = () => {
   };
 
   return (
-    <AuthBody hideBackButton={true}>
+    <AuthLayout>
       <h2 className="font-ibm-bold text-start text-2xl text-[#0E1F1F]">
         {t("reset_password_title")}
       </h2>
@@ -156,6 +156,6 @@ export const ResetPassword = () => {
           {t("set_password")}
         </button>
       </form>
-    </AuthBody>
+    </AuthLayout>
   );
 };

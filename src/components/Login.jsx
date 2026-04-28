@@ -1,19 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-import { AuthBody } from "./ui/AuthBody";
+import { AuthLayout } from "./ui/AuthLayout";
+import { ConnectDevicePopup } from "./ui/ConnectDevicePopup";
 
 export const Login = () => {
   const { t } = useTranslation();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const loginTypesList = useSelector((state) => state.auth.loginTypesList);
   const [showPassword, setShowPassword] = useState(false);
+  const [showConnectDevicePopup, setShowConnectDevicePopup] = useState(false);
 
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
-  } = useForm({ mode: "onBlur" });
+  } = useForm({
+    mode: "onBlur",
+    defaultValues: {
+      type: +searchParams.get("type") || loginTypesList[0].value,
+    },
+  });
+
+  const selectedType = watch("type");
+
+  useEffect(() => {
+    setSearchParams({ type: selectedType }, { replace: true });
+  }, [selectedType, setSearchParams]);
 
   const onSubmit = (data) => {
     console.log("Login data:", data);
@@ -21,13 +38,47 @@ export const Login = () => {
   };
 
   return (
-    <AuthBody>
+    <AuthLayout
+      description={loginTypesList.find((t) => t.value === Number(selectedType))?.desc}
+    >
       <h2 className="font-ibm-bold text-start text-2xl text-[#0E1F1F]">
         {t("login_title")}
       </h2>
       <p className="font-ibm-medium mt-1 text-start text-sm text-[#5B6161]">
         {t("login_subtitle")}
       </p>
+
+      <div className="mt-6 grid grid-cols-3 gap-3 md:gap-4">
+        {loginTypesList.map((type) => (
+          <label
+            key={type.value}
+            className={`group relative flex cursor-pointer flex-col items-center justify-center gap-1 rounded-lg border p-3 transition-all ${
+              Number(selectedType) === type.value
+                ? "border-[#99FFD3] bg-[#E5FFF4]/54"
+                : "border-[#CCCCCC] bg-white hover:border-[#99FFD3] hover:bg-[#E5FFF4]/54"
+            }`}
+          >
+            <input
+              type="radio"
+              value={type.value}
+              {...register("type")}
+              className="sr-only"
+            />
+
+            <img
+              src={type.icon}
+              alt={t(type.label)}
+              className={`h-6 w-6 ${Number(selectedType) === type.value ? "icon-green" : ""}`}
+            />
+
+            <span
+              className={`font-ibm-regular text-center text-sm leading-7 transition-all group-hover:text-[#00512E] ${Number(selectedType) === type.value ? "text-[#00512E]" : "text-[#878F8F]"}`}
+            >
+              {t(type.label)}
+            </span>
+          </label>
+        ))}
+      </div>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -48,7 +99,7 @@ export const Login = () => {
             <input
               type="tel"
               id="mobile"
-              placeholder="5x xxx xxxx"
+              placeholder=""
               {...register("mobile", {
                 required: t("mobile_required"),
                 pattern: {
@@ -154,7 +205,7 @@ export const Login = () => {
             </label>
           </div>
           <Link
-            to="/forget-password"
+            to={`/forget-password?type=${selectedType}`}
             size="sm"
             className="font-ibm-regular text-base text-[#00512E] underline underline-offset-2"
           >
@@ -166,21 +217,38 @@ export const Login = () => {
           type="submit"
           className="font-ibm-semiBold mt-2 h-14 w-full cursor-pointer rounded-2xl bg-[#00512E] text-lg text-white shadow-lg transition-all hover:bg-[#003D22] active:scale-[0.98] md:mt-6"
         >
-          {t("login_btn")}
+          {+selectedType === 3 ? t("start_your_day") : t("login_btn")}
         </button>
       </form>
 
       <div className="pt-3 text-center">
-        <p className="font-ibm-regular text-base text-[#5B6161]">
-          {t("no_account")}{" "}
-          <Link
-            to="/register"
-            className="font-ibm-regular ms-1 text-[#00512E] hover:underline"
+        {+selectedType === 1 ? (
+          <p className="font-ibm-regular text-base text-[#878F8F]">{"\u00A0"}</p>
+        ) : +selectedType === 2 ? (
+          <p className="font-ibm-regular text-base text-[#878F8F]">
+            {t("no_account")}{" "}
+            <Link
+              to="/register"
+              className="font-ibm-regular ms-1 text-[#00512E] hover:underline"
+            >
+              {t("create_account")}
+            </Link>
+          </p>
+        ) : +selectedType === 3 ? (
+          <button
+            type="button"
+            onClick={() => setShowConnectDevicePopup(true)}
+            className="font-ibm-regular cursor-pointer bg-transparent text-base text-[#00512E] transition-all hover:scale-115 active:scale-[0.98]"
           >
-            {t("create_account")}
-          </Link>
-        </p>
+            {t("link_the_app_to_the_device")}
+          </button>
+        ) : null}
       </div>
-    </AuthBody>
+
+      <ConnectDevicePopup
+        show={showConnectDevicePopup}
+        onClose={() => setShowConnectDevicePopup(false)}
+      />
+    </AuthLayout>
   );
 };

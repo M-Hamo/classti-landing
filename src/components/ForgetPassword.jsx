@@ -1,9 +1,10 @@
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
-import { AuthBody } from "./ui/AuthBody";
+import { AuthLayout } from "./ui/AuthLayout";
 
 export const ForgetPassword = () => {
   const { t } = useTranslation();
+
   const {
     register,
     handleSubmit,
@@ -16,7 +17,7 @@ export const ForgetPassword = () => {
   };
 
   return (
-    <AuthBody backLink="/login">
+    <AuthLayout>
       <h2 className="font-ibm-bold text-start text-2xl text-[#0E1F1F]">
         {t("forget_password_title")}
       </h2>
@@ -84,6 +85,6 @@ export const ForgetPassword = () => {
           {t("send_code")}
         </button>
       </form>
-    </AuthBody>
+    </AuthLayout>
   );
 };

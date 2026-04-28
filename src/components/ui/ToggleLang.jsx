@@ -14,7 +14,7 @@ export const ToggleLang = ({ className, text = "toggle_lang", onToggle = () => {
   return (
     <button
       onClick={changeLangHandler}
-      className={`flex h-10 cursor-pointer items-center justify-start gap-1 rounded-lg border border-[#00512E] px-1 text-sm text-[#00512E] transition-colors hover:bg-[#00512E]/5 ${className}`}
+      className={`flex h-10 cursor-pointer items-center justify-start gap-1 rounded-lg border border-[#00512E] px-1.5 text-sm text-[#00512E] transition-colors hover:bg-[#00512E]/5 ${className}`}
     >
       <img src={langIcon} alt="lang" className="h-5 w-5" />
       <span className="font-ibm-medium">{t(text)}</span>
