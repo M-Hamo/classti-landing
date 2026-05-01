@@ -189,7 +189,7 @@
   "already_have_account": "لديك حساب بالفعل؟",
   "login_subtitle_2": "قم بتسجيل الدخول للوصول إلى لوحة التحكم الخاصة بك",
   "usage_policy_page_badge": "سياسة الاستخدام",
-  "usage_policy_page_title": "سياسة استخدام Classti",
+  "usage_policy_page_title": "سياسة استخدام <0/>",
   "usage_policy_page_intro": "نحن في Classti نؤمن بتوفير بيئة تعليمية آمنة ومحترمة لجميع المستخدمين. تحدد هذه السياسة المعايير التي يجب الالتزام بها عند استخدام منصتنا.",
   "usage_policy_principles_aria": "مبادئ أساسية",
   "usage_policy_principle_data_title": "أمن البيانات",

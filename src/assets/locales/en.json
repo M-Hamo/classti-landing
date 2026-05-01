@@ -189,7 +189,7 @@
   "already_have_account": "Already have an account?",
   "login_subtitle_2": "Login to access your dashboard",
   "usage_policy_page_badge": "Usage policy",
-  "usage_policy_page_title": "Classti Usage Policy",
+  "usage_policy_page_title": "<0/> Usage Policy",
   "usage_policy_page_intro": "At Classti we are committed to a safe, respectful learning environment for everyone. This policy describes the standards you must follow when using our platform.",
   "usage_policy_principles_aria": "Core principles",
   "usage_policy_principle_data_title": "Data security",
@@ -214,5 +214,6 @@
   "usage_policy_section3_consequences_title": "Consequences",
   "usage_policy_section3_consequences_body": "Violations may result in temporary or permanent account suspension. In some cases we may need to notify authorities if the violation poses a legal risk.",
   "usage_policy_cta_title": "Start your secure journey with Classti",
-  "usage_policy_cta_subtitle": "Join schools that rely on one platform for learning, communication, and management with confidence."
+  "usage_policy_cta_subtitle": "Join schools that rely on one platform for learning, communication, and management with confidence.",
+  "usage_policy_cta_button": "Contact Technical Support"
 }
