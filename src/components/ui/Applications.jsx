@@ -7,21 +7,20 @@ import icon1 from "../../assets/icons/fi_5956879.svg";
 import icon2 from "../../assets/icons/fi_10212239.svg";
 import icon3 from "../../assets/icons/fi_2924665.svg";
 import icon4 from "../../assets/icons/fi_1742953.svg";
-import featureBox1 from "../../assets/images/FeatureBox1.png";
-import featureBox2 from "../../assets/images/FeatureBox2.png";
-import featureBox3 from "../../assets/images/FeatureBox3.png";
-import featureBox4 from "../../assets/images/FeatureBox4.png";
+import featureBox1 from "../../assets/images/FeatureBox1.svg";
+import featureBox2 from "../../assets/images/FeatureBox2.svg";
+import featureBox3 from "../../assets/images/FeatureBox3.svg";
+import featureBox4 from "../../assets/images/FeatureBox4.svg";
 import appStore from "../../assets/icons/app_store.svg";
 import googlePlay from "../../assets/icons/google_play.svg";
-import parentAppImg1 from "../../assets/images/app1.png";
-import parentAppImg2 from "../../assets/images/app2.png";
-import parentAppImg3 from "../../assets/images/app3.png";
-import parentAppImg4 from "../../assets/images/app4.png";
+import parentAppImg1 from "../../assets/images/app1.svg";
+import parentAppImg2 from "../../assets/images/app2.svg";
+import parentAppImg3 from "../../assets/images/app3.svg";
+import parentAppImg4 from "../../assets/images/app4.svg";
 import parentAppIcon1 from "../../assets/icons/fi_2073059.svg";
 import parentAppIcon2 from "../../assets/icons/fi_4643839.svg";
 import parentAppIcon3 from "../../assets/icons/fi_681443.svg";
 import parentAppIcon4 from "../../assets/icons/fi_4860474.svg";
-import ellipse from "../../assets/images/Ellipse.png";
 
 export const Applications = () => {
   const { t } = useTranslation();
@@ -151,7 +150,7 @@ export const Applications = () => {
                   <img
                     src={tabs[selectedIndex].img}
                     alt="feature"
-                    className="h-[546.98px] w-full md:h-[662.53px]"
+                    className="h-auto w-full md:h-[662.53px]"
                   />
                 )}
               </div>
@@ -160,7 +159,7 @@ export const Applications = () => {
                 {tabs.map((item, idx) => (
                   <button
                     key={idx}
-                    className={`group flex min-h-[88px] cursor-pointer items-start justify-start gap-3 rounded-2xl border border-[#E6E6E6] p-3 transition-all duration-300 ease-in-out outline-none hover:border-[#009957] hover:bg-[#F7F7F7] hover:shadow-sm active:scale-105 ${idx === selectedIndex ? "scale-105! border-[#009957]! bg-white! shadow-sm!" : ""}`}
+                    className={`group flex min-h-[88px] cursor-pointer items-start justify-start gap-3 rounded-2xl border border-[#E6E6E6] p-3 transition-all duration-300 ease-in-out outline-none hover:border-[#009957] hover:bg-[#F7F7F7] hover:shadow-sm md:active:scale-105 ${idx === selectedIndex ? "border-[#009957]! bg-white! shadow-sm! md:scale-105!" : ""}`}
                     onClick={() => setSelectedIndex(idx)}
                   >
                     <div
@@ -286,21 +285,11 @@ export const Applications = () => {
               </div>
 
               <div className="relative flex h-full items-center justify-center overflow-hidden rounded-lg bg-cover bg-center bg-no-repeat md:col-span-2">
-                <div
-                  className="absolute top-1/2 left-1/2 z-0 h-[715.56px] w-[1007.41px] -translate-x-1/2 -translate-y-1/2"
-                  style={{
-                    backgroundImage: `url(${ellipse})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    opacity: 0.4,
-                  }}
-                ></div>
-
                 {parentAppTabs[parentSelectedIndex].img && (
                   <img
                     src={parentAppTabs[parentSelectedIndex].img}
                     alt="feature"
-                    className="z-50 h-[546.98px] w-full md:h-[662.53px] md:max-w-[335.81px]"
+                    className="h-auto w-full md:h-[662.53px]"
                   />
                 )}
               </div>
@@ -365,7 +354,7 @@ export const Applications = () => {
                 {parentAppTabs.map((item, idx) => (
                   <button
                     key={idx}
-                    className={`group flex min-h-[88px] cursor-pointer items-start justify-start gap-3 rounded-2xl border border-[#E6E6E6] bg-white p-3 transition-all duration-300 ease-in-out outline-none hover:border-[#009957] hover:bg-[#F7F7F7] hover:shadow-sm active:scale-105 ${idx === parentSelectedIndex ? "scale-105! border-[#009957]! bg-white! shadow-sm!" : ""}`}
+                    className={`group flex min-h-[88px] cursor-pointer items-start justify-start gap-3 rounded-2xl border border-[#E6E6E6] bg-white p-3 transition-all duration-300 ease-in-out outline-none hover:border-[#009957] hover:bg-[#F7F7F7] hover:shadow-sm md:active:scale-105 ${idx === parentSelectedIndex ? "border-[#009957]! bg-white! shadow-sm! md:scale-105!" : ""}`}
                     onClick={() => setParentSelectedIndex(idx)}
                   >
                     <div

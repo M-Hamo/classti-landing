@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 import footer from "../../assets/images/footer.jpg";
 import logo2 from "../../assets/icons/logo2.svg";
@@ -81,12 +82,12 @@ export const Footer = () => {
               </a>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                to="/usage-policy"
                 className="font-ibm-regular text-sm text-[#EBEBEB] transition-colors hover:text-white hover:underline"
               >
                 {t("usage_policy")}
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

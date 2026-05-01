@@ -27,6 +27,7 @@ export const Login = () => {
   });
 
   const selectedType = watch("type");
+  const selectedLoginType = loginTypesList.find((t) => t.value === Number(selectedType));
 
   useEffect(() => {
     setSearchParams({ type: selectedType }, { replace: true });
@@ -38,14 +39,12 @@ export const Login = () => {
   };
 
   return (
-    <AuthLayout
-      description={loginTypesList.find((t) => t.value === Number(selectedType))?.desc}
-    >
+    <AuthLayout description={selectedLoginType?.desc}>
       <h2 className="font-ibm-bold text-start text-2xl text-[#0E1F1F]">
         {t("login_title")}
       </h2>
       <p className="font-ibm-medium mt-1 text-start text-sm text-[#5B6161]">
-        {t("login_subtitle")}
+        {t(selectedLoginType?.sub_desc || "")}
       </p>
 
       <div className="mt-6 grid grid-cols-3 gap-3 md:gap-4">

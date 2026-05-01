@@ -292,7 +292,7 @@ export const Features = () => {
                 </div>
               </div>
 
-              <div className="mt-4 h-full w-full md:mt-6" dir="ltr">
+              <div className="mt-4 h-[180px] w-full md:mt-6 md:h-full" dir="ltr">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
                     data={chartData}
@@ -502,17 +502,17 @@ export const Features = () => {
           </div>
 
           <div
-            className="absolute top-0 bottom-0 z-20 flex w-10 -translate-x-1/2 cursor-ew-resize items-center justify-center touch-none"
+            className="absolute top-0 bottom-0 z-20 flex w-10 -translate-x-1/2 cursor-ew-resize touch-none items-center justify-center"
             style={{ left: `${sliderValue}%` }}
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
             onPointerCancel={handlePointerUp}
           >
-            <div className="h-full w-1 bg-[#00512E] pointer-events-none" />
+            <div className="pointer-events-none h-full w-1 bg-[#00512E]" />
 
             <div
-              className="absolute top-16 flex items-center justify-center gap-6 pointer-events-none"
+              className="pointer-events-none absolute top-16 flex items-center justify-center gap-6"
               dir="ltr"
             >
               <div className="font-ibm-semiBold flex h-[27px] items-center rounded-full bg-[#EF4444] px-3 text-center text-sm text-white shadow-sm">
@@ -523,7 +523,7 @@ export const Features = () => {
               </div>
             </div>
 
-            <div className="absolute top-2/3 flex h-12 w-12 items-center justify-center rounded-full border border-[#E6E6E6] bg-white shadow-md pointer-events-none">
+            <div className="pointer-events-none absolute top-2/3 flex h-12 w-12 items-center justify-center rounded-full border border-[#E6E6E6] bg-white shadow-md">
               <img src={moveIcon} alt="move" className="h-6 w-6" />
             </div>
           </div>

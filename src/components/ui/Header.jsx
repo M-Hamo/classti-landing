@@ -26,6 +26,18 @@ export const Header = () => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "unset";
   }, [isMenuOpen]);
 
+  useEffect(() => {
+    if (location.hash && location.pathname === "/") {
+      const id = location.hash.substring(1);
+      const element = document.getElementById(id);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      }
+    }
+  }, [location.hash, location.pathname]);
+
   const headerLinks = [
     { name: t("nav_home"), href: "#main" },
     { name: t("nav_about"), href: "#about" },
@@ -45,15 +57,15 @@ export const Header = () => {
 
         <nav className="hidden items-center gap-6 lg:flex">
           {headerLinks.map((link) => (
-            <a
+            <Link
               key={link.name}
-              href={link.href}
+              to={"/" + link.href}
               className={`${
                 activeHash === link.href ? "text-[#00512E]" : "text-[#0E1F1F]"
               } font-ibm-medium text-sm transition-opacity hover:text-[#00512E]`}
             >
               {link.name}
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -75,7 +87,7 @@ export const Header = () => {
             to="/login"
             className="font-ibm-semiBold hidden h-12 cursor-pointer items-center justify-center rounded-xl bg-[#00512E] px-8 text-base text-white transition-transform hover:bg-[#00512E]/90 active:scale-[0.98] lg:flex"
           >
-            {t("login")}
+            {t("login_btn")}
           </Link>
 
           <Link
@@ -109,16 +121,16 @@ export const Header = () => {
           <div className="flex h-full flex-col items-stretch justify-start gap-5">
             <nav className="flex flex-col items-stretch justify-start gap-3">
               {headerLinks.map((link) => (
-                <a
+                <Link
                   key={link.name}
-                  href={link.href}
+                  to={"/" + link.href}
                   className={`${
                     activeHash === link.href ? "text-[#00512E]" : "text-[#0E1F1F]"
                   } font-ibm-medium flex h-7 items-center text-sm transition-colors hover:text-[#00512E]`}
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {link.name}
-                </a>
+                </Link>
               ))}
             </nav>
 

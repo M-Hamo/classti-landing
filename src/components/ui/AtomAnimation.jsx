@@ -3,13 +3,12 @@ import vector2 from "../../assets/icons/fi_11069073.svg";
 import vector3 from "../../assets/icons/fi_11069098.svg";
 import vector4 from "../../assets/icons/fi_2097064.svg";
 import vector5 from "../../assets/icons/fi_5517020.svg";
+import logo from "../../assets/icons/logo.svg";
 
 export const AtomAnimation = () => {
   return (
     <div className="relative flex h-[420px] w-[420px] items-center justify-center">
-      <span className="font-ibm-bold absolute z-50 block text-2xl leading-8 text-[#00512E]">
-        Class<span className="text-[#009957]">ti</span>
-      </span>
+      <img src={logo} alt="logo" className="h-8 w-28 animate-pulse" />
 
       <div className="absolute h-[150px] w-[150px] animate-spin [animation-duration:15s] lg:h-[230px] lg:w-[230px]">
         <div className="absolute top-0 right-0 h-1/2 w-1/2 rounded-tr-full border-t-2 border-r-2 border-[#BDBEC0]"></div>

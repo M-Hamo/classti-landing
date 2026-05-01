@@ -9,18 +9,21 @@ const loginTypesList = [
     value: 1,
     label: "school",
     desc: "login_sub_desc1",
+    sub_desc: "login_subtitle",
     icon: schoolIcon,
   },
   {
     value: 2,
     label: "teacher",
     desc: "login_sub_desc2",
+    sub_desc: "login_subtitle",
     icon: teacherIcon,
   },
   {
     value: 3,
     label: "parent",
     desc: "login_sub_desc3",
+    sub_desc: "login_subtitle_2",
     icon: parentIcon,
   },
 ];
