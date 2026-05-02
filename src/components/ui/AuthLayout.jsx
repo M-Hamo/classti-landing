@@ -10,17 +10,17 @@ import logo2 from "../../assets/icons/logo2.svg";
 import heroBg from "../../assets/images/Hero Section.png";
 import tickIcon from "../../assets/icons/fi_1742953.svg";
 import loginBg from "../../assets/images/login.png";
+import { UserType } from "../../store/user";
 
 export const AuthLayout = ({ children, description = "" }) => {
   const { t } = useTranslation();
   const location = useLocation();
-  const loginTypesList = useSelector((state) => state.auth.loginTypesList);
+  const loginTypesList = useSelector((state) => state.user.loginTypesList);
   const searchParams = new URLSearchParams(location.search);
-  const selectedLoginTypeValue = +searchParams.get("type") || 1;
+  const selectedLoginTypeValue = +searchParams.get("userType") || UserType.SchoolAdmin;
 
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // Derive this directly from render state to ensure it's always in sync
   const selectedLoginType = loginTypesList?.find(
     (t) => t.value === selectedLoginTypeValue
   );
@@ -168,28 +168,28 @@ export const AuthLayout = ({ children, description = "" }) => {
 
           <ul className="flex flex-wrap items-center justify-end gap-3">
             <li>
-              <a
-                href="#"
+              <Link
+                to="/terms-conditions"
                 className="font-ibm-medium text-[10px] text-[#5B6161] transition-colors hover:text-black hover:underline"
               >
                 {t("terms_conditions")}
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                to="/privacy-policy"
                 className="font-ibm-medium text-[10px] text-[#5B6161] transition-colors hover:text-black hover:underline"
               >
                 {t("privacy_policy")}
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                to="/usage-policy"
                 className="font-ibm-medium text-[10px] text-[#5B6161] transition-colors hover:text-black hover:underline"
               >
                 {t("usage_policy")}
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

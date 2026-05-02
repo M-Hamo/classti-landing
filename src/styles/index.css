@@ -50,3 +50,13 @@ img {
   filter: brightness(0) saturate(100%) invert(43%) sepia(61%) saturate(3369%)
     hue-rotate(34deg) brightness(94%) contrast(101%);
 }
+
+/* Remove Autofill Background */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px white inset !important;
+  -webkit-text-fill-color: #0e1f1f !important;
+  transition: background-color 5000s ease-in-out 0s;
+}

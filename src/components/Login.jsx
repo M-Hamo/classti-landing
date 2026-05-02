@@ -1,16 +1,21 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import { AuthLayout } from "./ui/AuthLayout";
 import { ConnectDevicePopup } from "./ui/ConnectDevicePopup";
+import { PhoneNumberInput } from "./ui/PhoneNumberInput";
+import { UserType, loginAsync, getLKAttachesAsync } from "../store/user";
 
 export const Login = () => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const loginTypesList = useSelector((state) => state.auth.loginTypesList);
+  const loginTypesList = useSelector((state) => state.user.loginTypesList);
+  const attachmentsList = useSelector((state) => state.user.attachmentsList);
   const [showPassword, setShowPassword] = useState(false);
   const [showConnectDevicePopup, setShowConnectDevicePopup] = useState(false);
 
@@ -18,24 +23,54 @@ export const Login = () => {
     register,
     handleSubmit,
     watch,
+    setValue,
+    setError,
     formState: { errors },
   } = useForm({
     mode: "onBlur",
+
     defaultValues: {
-      type: +searchParams.get("type") || loginTypesList[0].value,
+      userType: +searchParams.get("userType") || UserType.SchoolAdmin,
+      countryCode: "KSA",
     },
   });
 
-  const selectedType = watch("type");
+  const selectedType = watch("userType");
+  const attachmentId = watch("attachmentId");
   const selectedLoginType = loginTypesList.find((t) => t.value === Number(selectedType));
 
   useEffect(() => {
-    setSearchParams({ type: selectedType }, { replace: true });
-  }, [selectedType, setSearchParams]);
+    setSearchParams({ userType: selectedType }, { replace: true });
+
+    if (+selectedType !== UserType.Parent) setValue("attachmentId", null);
+  }, [selectedType, setSearchParams, setValue]);
+
+  useEffect(() => {
+    dispatch(getLKAttachesAsync()).then((res) => {
+      if (res?.payload?.length > 0 && !attachmentId && +selectedType == UserType.Parent) {
+        setValue("attachmentId", res.payload[0].id);
+      }
+    });
+  }, [dispatch, attachmentId, setValue, selectedType]);
 
   const onSubmit = (data) => {
-    console.log("Login data:", data);
-    // Add login logic here
+    dispatch(loginAsync(data)).then((res) => {
+      if (res.isSuccess) {
+      } else {
+        const handledFields = new Set();
+        res.validationErrors.forEach((err) => {
+          let fieldName =
+            err.propertyName.charAt(0).toLowerCase() + err.propertyName.slice(1);
+
+          if (fieldName === "countryCode") fieldName = "phoneNumber";
+
+          if (!handledFields.has(fieldName)) {
+            setError(fieldName, { type: "server", message: err.errorMessage });
+            handledFields.add(fieldName);
+          }
+        });
+      }
+    });
   };
 
   return (
@@ -47,75 +82,69 @@ export const Login = () => {
         {t(selectedLoginType?.sub_desc || "")}
       </p>
 
-      <div className="mt-6 grid grid-cols-3 gap-3 md:gap-4">
-        {loginTypesList.map((type) => (
-          <label
-            key={type.value}
-            className={`group relative flex cursor-pointer flex-col items-center justify-center gap-1 rounded-lg border p-3 transition-all ${
-              Number(selectedType) === type.value
-                ? "border-[#99FFD3] bg-[#E5FFF4]/54"
-                : "border-[#CCCCCC] bg-white hover:border-[#99FFD3] hover:bg-[#E5FFF4]/54"
-            }`}
-          >
-            <input
-              type="radio"
-              value={type.value}
-              {...register("type")}
-              className="sr-only"
-            />
-
-            <img
-              src={type.icon}
-              alt={t(type.label)}
-              className={`h-6 w-6 ${Number(selectedType) === type.value ? "icon-green" : ""}`}
-            />
-
-            <span
-              className={`font-ibm-regular text-center text-sm leading-7 transition-all group-hover:text-[#00512E] ${Number(selectedType) === type.value ? "text-[#00512E]" : "text-[#878F8F]"}`}
-            >
-              {t(type.label)}
-            </span>
-          </label>
-        ))}
-      </div>
-
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="mt-4 flex flex-col items-stretch justify-start gap-1"
+        className="mt-6 flex flex-col items-stretch justify-start gap-1"
       >
-        <div className="flex flex-col items-stretch justify-start gap-2 md:gap-3">
-          <label htmlFor="mobile" className="font-ibm-medium text-sm text-[#0E1F1F]">
-            {t("mobile_number")}
-          </label>
+        <div className="mb-6 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
+          {loginTypesList.map((type) => (
+            <label
+              key={type.value}
+              className={`group relative flex cursor-pointer flex-col items-center justify-center gap-1 rounded-lg border p-3 transition-all ${
+                Number(selectedType) === type.value
+                  ? "border-[#99FFD3] bg-[#E5FFF4]/54"
+                  : "border-[#CCCCCC] bg-white hover:border-[#99FFD3] hover:bg-[#E5FFF4]/54"
+              }`}
+            >
+              <input
+                type="radio"
+                value={type.value}
+                {...register("userType")}
+                className="sr-only"
+              />
 
-          <div
-            className={`flex h-12 items-center overflow-hidden rounded-2xl border bg-transparent transition-all ${
-              errors.mobile
-                ? "border-red-500"
-                : "border-[#DDE0E0] focus-within:border-[#009957] focus-within:bg-white"
-            }`}
-          >
-            <input
-              type="tel"
-              id="mobile"
-              placeholder=""
-              {...register("mobile", {
-                required: t("mobile_required"),
-                pattern: {
-                  value: /^[5]\d{8}$/,
-                  message: t("mobile_invalid"),
-                },
-              })}
-              className="font-ibm-regular w-full bg-transparent px-4 py-2 text-sm outline-none placeholder:text-[#878F8F]"
-            />
-            <div className="flex items-center gap-2 border-r border-[#DDE0E0] bg-transparent px-4 py-2">
-              <span className="font-ibm-bold text-sm text-[#0E1F1F]">966+</span>
+              <img
+                src={type.icon}
+                alt={t(type.label)}
+                className={`h-6 w-6 ${Number(selectedType) === type.value ? "icon-green" : ""}`}
+              />
+
+              <span
+                className={`font-ibm-regular text-center text-sm leading-7 transition-all group-hover:text-[#00512E] ${Number(selectedType) === type.value ? "text-[#00512E]" : "text-[#878F8F]"}`}
+              >
+                {t(type.label)}
+              </span>
+            </label>
+          ))}
+        </div>
+
+        {+selectedType === UserType.Parent && (
+          <div className="mb-4 flex flex-col items-stretch justify-start gap-2">
+            <label htmlFor="fullName" className="font-ibm-medium text-sm text-[#0E1F1F]">
+              {t("choose_your_photo")}
+            </label>
+            <div className="flex flex-wrap items-center justify-start gap-3 transition-all">
+              {attachmentsList.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  className={`flex h-10 w-10 cursor-pointer items-center justify-center overflow-hidden rounded-[17.58px] outline-2 ${attachmentId === item.id ? "outline-[#00512E]" : "outline-white"}`}
+                  onClick={() => setValue("attachmentId", item.id)}
+                >
+                  <img className="h-full w-full" src={item.url} alt="User icon" />
+                </button>
+              ))}
             </div>
           </div>
-          <p className="font-ibm-medium -mt-2 text-xs text-red-500">
-            {errors.mobile ? errors.mobile.message : "\u00A0"}
-          </p>
-        </div>
+        )}
+
+        <PhoneNumberInput
+          register={register}
+          errors={errors}
+          watch={watch}
+          setValue={setValue}
+          label={t("mobile_number")}
+        />
 
         <div className="flex flex-col items-stretch justify-start gap-2 md:gap-3">
           <label htmlFor="password" className="font-ibm-medium text-sm text-[#0E1F1F]">
@@ -204,7 +233,7 @@ export const Login = () => {
             </label>
           </div>
           <Link
-            to={`/forget-password?type=${selectedType}`}
+            to={`/forget-password?userType=${selectedType}`}
             size="sm"
             className="font-ibm-regular text-base text-[#00512E] underline underline-offset-2"
           >
@@ -216,14 +245,14 @@ export const Login = () => {
           type="submit"
           className="font-ibm-semiBold mt-2 h-14 w-full cursor-pointer rounded-2xl bg-[#00512E] text-lg text-white shadow-lg transition-all hover:bg-[#003D22] active:scale-[0.98] md:mt-6"
         >
-          {+selectedType === 3 ? t("start_your_day") : t("login_btn")}
+          {+selectedType === UserType.Parent ? t("start_your_day") : t("login_btn")}
         </button>
       </form>
 
       <div className="pt-3 text-center">
-        {+selectedType === 1 ? (
+        {+selectedType === UserType.SchoolAdmin ? (
           <p className="font-ibm-regular text-base text-[#878F8F]">{"\u00A0"}</p>
-        ) : +selectedType === 2 ? (
+        ) : +selectedType === UserType.SchoolOwner ? (
           <p className="font-ibm-regular text-base text-[#878F8F]">
             {t("no_account")}{" "}
             <Link
@@ -233,7 +262,7 @@ export const Login = () => {
               {t("create_account")}
             </Link>
           </p>
-        ) : +selectedType === 3 ? (
+        ) : +selectedType === UserType.Parent ? (
           <button
             type="button"
             onClick={() => setShowConnectDevicePopup(true)}

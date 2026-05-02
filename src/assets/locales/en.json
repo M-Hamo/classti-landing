@@ -147,7 +147,7 @@
   "stat_users": "Active Users",
   "stat_schools": "Partner Schools",
   "mobile_required": "Mobile number is required",
-  "mobile_invalid": "Invalid mobile number (must start with 5)",
+  "mobile_invalid": "Invalid mobile number",
   "password_required": "Password is required",
   "password_short": "Password is too short (min 6 characters)",
   "forget_password_title": "Forgot Password",
@@ -244,5 +244,9 @@
   "terms_conditions_s4_title": "Code of Conduct and Participation",
   "terms_conditions_s4_li1": "Commitment to mutual respect in interactive discussion spaces and educational training.",
   "terms_conditions_s4_li2": "Not posting any promotional content or unauthorized external links within lessons.",
-  "terms_conditions_s4_li3": "Refraining from using any automated tools or 'crawling' software to extract data from the platform."
+  "terms_conditions_s4_li3": "Refraining from using any automated tools or 'crawling' software to extract data from the platform.",
+  "required_field": "This field is required",
+  "email_invalid": "Invalid email address",
+  "registered_successfully": "Account created successfully",
+  "choose_your_photo": "Choose your photo"
 }
