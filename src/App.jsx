@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { useLanguage } from "./hooks/useLanguage";
 import { Home } from "./components/Home";
 import { UsagePolicy } from "./components/UsagePolicy";
+import { PrivacyPolicy } from "./components/PrivacyPolicy";
+import { TermsConditions } from "./components/TermsConditions";
 import { Login } from "./components/Login";
 import { ForgetPassword } from "./components/ForgetPassword";
 import { Otp } from "./components/Otp";
@@ -29,6 +31,8 @@ export const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/usage-policy" element={<UsagePolicy />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-conditions" element={<TermsConditions />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forget-password" element={<ForgetPassword />} />

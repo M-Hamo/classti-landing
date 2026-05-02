@@ -6,7 +6,6 @@ import starIcon from "../assets/icons/star.svg";
 import childIcon from "../assets/icons/child.svg";
 import child2Icon from "../assets/icons/child_2.svg";
 import check2Icon from "../assets/icons/check_2.svg";
-import footerIcon from "../assets/images/support.png";
 
 export const UsagePolicy = () => {
   const { t } = useTranslation();
@@ -180,12 +179,7 @@ export const UsagePolicy = () => {
             </div>
           </div>
 
-          <div
-            className="flex flex-col items-center justify-center gap-2 rounded-3xl bg-size-[800%] bg-center bg-no-repeat p-4 md:gap-3 md:bg-size-[200%] md:p-12 md:pb-6!"
-            style={{
-              backgroundImage: `url(${footerIcon})`,
-            }}
-          >
+          <div className="flex flex-col items-center justify-center gap-2 rounded-3xl bg-linear-to-bl from-[#054E2E] to-[#001D11] p-4 md:gap-3 md:p-12 md:pb-6!">
             <h4 className="font-ibm-bold text-center text-xl leading-[42px] text-white md:text-[32px]">
               {t("usage_policy_cta_title")}
             </h4>
@@ -194,10 +188,7 @@ export const UsagePolicy = () => {
               {t("usage_policy_cta_subtitle")}
             </p>
 
-            <button
-              type="submit"
-              className="font-ibm-semiBold h-14 cursor-pointer rounded-2xl bg-[#00512E] px-8 text-lg text-white shadow-lg transition-all hover:bg-[#003D22] active:scale-[0.98]"
-            >
+            <button className="font-ibm-semiBold h-14 w-full cursor-pointer rounded-2xl bg-[#00512E] px-8 text-lg text-white shadow-lg transition-all hover:bg-[#003D22] active:scale-[0.98] md:w-auto">
               {t("usage_policy_cta_button")}
             </button>
           </div>

@@ -66,20 +66,20 @@ export const Footer = () => {
           </h4>
           <ul className="flex flex-col items-start justify-start gap-3">
             <li>
-              <a
-                href="#"
+              <Link
+                to="/terms-conditions"
                 className="font-ibm-regular text-sm text-[#EBEBEB] transition-colors hover:text-white hover:underline"
               >
                 {t("terms_conditions")}
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                to="/privacy-policy"
                 className="font-ibm-regular text-sm text-[#EBEBEB] transition-colors hover:text-white hover:underline"
               >
                 {t("privacy_policy")}
-              </a>
+              </Link>
             </li>
             <li>
               <Link
