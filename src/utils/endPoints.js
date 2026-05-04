@@ -5,5 +5,6 @@ export class EndPoints {
     login: "Auth/LoginLanding",
     getLKAttachments: "LKCountries/GetLKAttachments",
     forgetPassword: "Auth/ForgetPassword",
+    verifyForgetPassword: "Auth/VerifyForgetPassword",
   };
 }

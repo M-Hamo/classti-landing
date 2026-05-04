@@ -248,5 +248,6 @@
   "required_field": "هذا الحقل مطلوب",
   "email_invalid": "البريد الإلكتروني غير صحيح",
   "registered_successfully": " تم إنشاء حساب بنجاح",
-  "choose_your_photo": "اختر صورتك"
+  "choose_your_photo": "اختر صورتك",
+  "ROLE_NOT_MATCHED": "الدور غير صحيح"
 }

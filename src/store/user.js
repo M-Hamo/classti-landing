@@ -1,11 +1,14 @@
 import axios from "../api/axios";
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { decryptData, encryptData } from "../utils/crypto-js";
 import { EndPoints } from "../utils/endPoints";
 
 import schoolIcon from "../assets/icons/fi_763330.svg";
 import teacherIcon from "../assets/icons/Owner.svg";
 import parentIcon from "../assets/icons/Parent.svg";
+
+export const CurrentUserKey = "current_user";
 
 export const UserType = {
   Admin: 1,
@@ -41,9 +44,7 @@ const loginTypesList = [
 
 const initialState = {
   loginTypesList: loginTypesList,
-  // token: localStorage.getItem("token") || null,
-  // user: JSON.parse(localStorage.getItem("user")) || null,
-  // isAuthenticated: !!localStorage.getItem("token"),
+  token: decryptData(localStorage.getItem(CurrentUserKey)) || null,
   countriesList: [],
   attachmentsList: [],
 };
@@ -58,6 +59,10 @@ export const userSlice = createSlice({
     });
     builder.addCase(getLKAttachesAsync.fulfilled, (state, action) => {
       state.attachmentsList = action.payload;
+    });
+    builder.addCase(loginAsync.fulfilled, (state, action) => {
+      state.token = action.payload?.data?.token;
+      localStorage.setItem(CurrentUserKey, encryptData(action.payload?.data?.token));
     });
   },
 });
@@ -77,37 +82,6 @@ export const getAllCountriesAsync = createAsyncThunk(
   }
 );
 
-export const registerUserAsync = createAsyncThunk(
-  "user/registerUserAsync",
-  async (registerData, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(
-        EndPoints.publicApis.createSchoolOwner,
-        registerData
-      );
-      return response.data;
-    } catch (error) {
-      console.error(error);
-      return rejectWithValue(error.response?.data || error.message);
-    }
-  }
-);
-
-export const loginAsync = createAsyncThunk(
-  "user/loginAsync",
-  async (loginData, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(EndPoints.publicApis.login, loginData);
-      const result = response.data.value;
-
-      return result;
-    } catch (error) {
-      console.error(error);
-      return rejectWithValue(error.response?.data || error.message);
-    }
-  }
-);
-
 export const getLKAttachesAsync = createAsyncThunk(
   "user/getLKAttachesAsync",
   async () => {
@@ -123,19 +97,59 @@ export const getLKAttachesAsync = createAsyncThunk(
   }
 );
 
-export const forgetPasswordAsync = createAsyncThunk(
-  "user/forgetPasswordAsync",
-  async (forgetPasswordData, { rejectWithValue }) => {
+export const registerUserAsync = createAsyncThunk(
+  "user/registerUserAsync",
+  async (payload, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        EndPoints.publicApis.forgetPassword,
-        forgetPasswordData
-      );
-
+      const response = await axios.post(EndPoints.publicApis.createSchoolOwner, payload);
       return response.data;
     } catch (error) {
       console.error(error);
       return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+export const loginAsync = createAsyncThunk(
+  "user/loginAsync",
+  async (payload, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(EndPoints.publicApis.login, payload);
+      const result = response.data;
+
+      return result;
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+export const forgetPasswordAsync = createAsyncThunk(
+  "user/forgetPasswordAsync",
+  async (payload) => {
+    try {
+      const response = await axios.post(EndPoints.publicApis.forgetPassword, payload);
+
+      return response.data;
+    } catch (error) {
+      return Promise.reject(error.response?.data || error.message);
+    }
+  }
+);
+
+export const verifyForgetPassAsync = createAsyncThunk(
+  "user/verifyForgetPasswordAsync",
+  async (payload) => {
+    try {
+      const response = await axios.post(
+        EndPoints.publicApis.verifyForgetPassword,
+        payload
+      );
+
+      return response.data;
+    } catch (error) {
+      return Promise.reject(error.response?.data || error.message);
     }
   }
 );

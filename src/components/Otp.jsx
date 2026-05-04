@@ -1,12 +1,28 @@
 import { useState, useEffect, useRef } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { AuthLayout } from "./ui/AuthLayout";
+import { AppButton } from "./ui/AppButton";
+import { useDispatch } from "react-redux";
+import { forgetPasswordAsync, verifyForgetPassAsync } from "../store/user";
 
 export const Otp = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
+  const userType = searchParams.get("userType");
+  const phoneNumber = searchParams.get("phoneNumber");
+  const countryCode = (
+    searchParams.get("countryCode")?.includes("+")
+      ? searchParams.get("countryCode")
+      : `+${searchParams.get("countryCode")}`
+  ).replace(" ", "");
+
   const [otp, setOtp] = useState(["", "", "", ""]);
-  const [timeLeft, setTimeLeft] = useState(60);
-  const [hasError, setHasError] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(40);
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState(false);
   const inputRefs = [useRef(), useRef(), useRef(), useRef()];
 
   useEffect(() => {
@@ -17,7 +33,7 @@ export const Otp = () => {
   }, [timeLeft]);
 
   const handleChange = (index, value) => {
-    setHasError(false);
+    setErrorMsg(false);
     const digit = value.replace(/[^0-9]/g, "");
     if (!digit && value !== "") return;
 
@@ -44,17 +60,33 @@ export const Otp = () => {
   };
 
   const handleResend = () => {
-    setTimeLeft(60);
     setOtp(["", "", "", ""]);
-    setHasError(false);
-    if (inputRefs[0].current) inputRefs[0].current.focus();
+    setErrorMsg(false);
+
+    dispatch(forgetPasswordAsync({ phoneNumber, countryCode })).then(() => {
+      setTimeLeft(40);
+      if (inputRefs[0].current) inputRefs[0].current.focus();
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const otpValue = otp.join("");
     if (otpValue.length === 4) {
-      console.log("OTP Submitted:", otpValue);
+      setLoading(true);
+      setErrorMsg("");
+
+      dispatch(verifyForgetPassAsync({ phoneNumber, countryCode, otp: otpValue }))
+        .then((res) => res.payload)
+        .then((res) => {
+          if (res.isSuccess) {
+            navigate(
+              `/reset-password?userType=${userType}&userId=${res?.data?.userId}&resetToken=${res?.data?.resetToken}`
+            );
+          } else setErrorMsg(res?.message);
+        })
+        .catch(() => navigate(`/forget-password?userType=${userType}`))
+        .finally(() => setLoading(false));
     }
   };
 
@@ -67,7 +99,7 @@ export const Otp = () => {
         <p className="font-ibm-medium text-start text-sm text-[#5B6161]">
           {t("otp_subtitle")}{" "}
           <span className="font-ibm-bold text-[#00512E]" dir="ltr">
-            45** **** *****
+            {phoneNumber?.slice(0, -2).replace(/./g, "*") + phoneNumber?.slice(-2)}
           </span>
         </p>
 
@@ -87,15 +119,15 @@ export const Otp = () => {
                 onChange={(e) => handleChange(idx, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(idx, e)}
                 className={`font-ibm-medium h-[72px] w-full rounded-xl border bg-[#F9FAFB] text-center text-3xl text-[#0E1F1F] transition-all outline-none focus:border-[#009957] focus:bg-white focus:ring-1 focus:ring-[#009957] md:h-[90px] md:text-2xl ${
-                  hasError ? "border-red-500 " : "border-[#DDE0E0] "
+                  errorMsg ? "border-red-500 " : "border-[#DDE0E0] "
                 }`}
               />
             ))}
           </div>
 
           <div className="flex flex-col items-center justify-center gap-4">
-            {timeLeft !== 0 && !hasError && (
-              <p className="font-ibm-medium text-base text-[#5B6161]">
+            {timeLeft !== 0 && !errorMsg && (
+              <p className="font-ibm-medium self-end pe-2 text-base text-[#5B6161]">
                 ({formatTime(timeLeft)})
               </p>
             )}
@@ -104,26 +136,24 @@ export const Otp = () => {
               <button
                 type="button"
                 onClick={handleResend}
-                className={`font-ibm-bold cursor-pointer text-base text-[#00512E] underline underline-offset-2`}
+                className={`font-ibm-bold cursor-pointer self-end pe-2 text-base text-[#00512E] underline underline-offset-2`}
               >
                 {t("resend_code")}
               </button>
             )}
 
-            {hasError && (
+            {errorMsg && (
               <p className="font-ibm-regular w-full text-start text-sm text-[#DD0417]">
-                {t("otp_error")}
+                {t(errorMsg || "otp_error")}
               </p>
             )}
           </div>
 
-          <button
-            type="submit"
+          <AppButton
             disabled={otp.some((d) => !d)}
-            className="font-ibm-semiBold mt-2 h-14 w-full cursor-pointer rounded-2xl bg-[#00512E] text-lg text-white shadow-lg transition-all hover:bg-[#003D22] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 md:mt-4"
-          >
-            {t("confirm")}
-          </button>
+            loading={loading}
+            text={t("confirm")}
+          />
         </form>
       </div>
     </AuthLayout>

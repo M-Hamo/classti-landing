@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { AuthLayout } from "./ui/AuthLayout";
 import { PhoneNumberInput } from "./ui/PhoneNumberInput";
+import { AppButton } from "./ui/AppButton";
 import { forgetPasswordAsync } from "../store/user";
 import { countryFlags } from "../utils/constants";
 
@@ -13,6 +15,8 @@ export const ForgetPassword = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const userType = searchParams.get("userType");
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const {
     register,
@@ -26,9 +30,11 @@ export const ForgetPassword = () => {
     defaultValues: { countryCode: countryFlags[1].code },
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+    setLoading(true);
+    setErrorMsg("");
     dispatch(forgetPasswordAsync(data))
-      .unwrap()
+      .then((res) => res.payload)
       .then((res) => {
         if (res.isSuccess) {
           navigate(
@@ -49,8 +55,10 @@ export const ForgetPassword = () => {
               }
             });
           }
+          setErrorMsg(res?.message);
         }
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -74,12 +82,11 @@ export const ForgetPassword = () => {
           label={t("mobile_number")}
         />
 
-        <button
-          type="submit"
-          className="font-ibm-semiBold mt-2 h-14 w-full cursor-pointer rounded-2xl bg-[#00512E] text-lg text-white shadow-lg transition-all hover:bg-[#003D22] active:scale-[0.98] md:mt-4"
-        >
-          {t("send_code")}
-        </button>
+        <p className="font-ibm-medium -mt-2 text-start text-xs text-red-500">
+          {t(errorMsg) || "\u00A0"}
+        </p>
+
+        <AppButton className="mt-1!" text={t("send_code")} loading={loading} />
       </form>
     </AuthLayout>
   );

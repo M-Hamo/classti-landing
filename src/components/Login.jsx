@@ -7,7 +7,9 @@ import { useForm } from "react-hook-form";
 import { AuthLayout } from "./ui/AuthLayout";
 import { ConnectDevicePopup } from "./ui/ConnectDevicePopup";
 import { PhoneNumberInput } from "./ui/PhoneNumberInput";
+import { AppButton } from "./ui/AppButton";
 import { UserType, loginAsync, getLKAttachesAsync } from "../store/user";
+import { countryFlags } from "../utils/constants";
 
 export const Login = () => {
   const { t } = useTranslation();
@@ -16,8 +18,11 @@ export const Login = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const loginTypesList = useSelector((state) => state.user.loginTypesList);
   const attachmentsList = useSelector((state) => state.user.attachmentsList);
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConnectDevicePopup, setShowConnectDevicePopup] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const {
     register,
@@ -31,7 +36,7 @@ export const Login = () => {
 
     defaultValues: {
       userType: +searchParams.get("userType") || UserType.SchoolAdmin,
-      countryCode: "KSA",
+      countryCode: countryFlags[1].code,
     },
   });
 
@@ -46,31 +51,43 @@ export const Login = () => {
   }, [selectedType, setSearchParams, setValue]);
 
   useEffect(() => {
-    dispatch(getLKAttachesAsync()).then((res) => {
-      if (res?.payload?.length > 0 && !attachmentId && +selectedType == UserType.Parent) {
-        setValue("attachmentId", res.payload[0].id);
-      }
-    });
+    if (+selectedType === UserType.Parent) {
+      dispatch(getLKAttachesAsync()).then((res) => {
+        if (res?.payload?.length > 0 && !attachmentId) {
+          setValue("attachmentId", res.payload[0].id);
+        }
+      });
+    }
   }, [dispatch, attachmentId, setValue, selectedType]);
 
   const onSubmit = (data) => {
-    dispatch(loginAsync(data)).then((res) => {
-      if (res.isSuccess) {
-      } else {
-        const handledFields = new Set();
-        res.validationErrors.forEach((err) => {
-          let fieldName =
-            err.propertyName.charAt(0).toLowerCase() + err.propertyName.slice(1);
+    setLoading(true);
+    setErrorMsg("");
+    dispatch(loginAsync(data))
+      .then((res) => res.payload)
+      .then((res) => {
+        if (res.isSuccess) {
+          console.log("🚀 ~ onSubmit ~ res:", res);
+        } else {
+          if (res.validationErrors) {
+            const handledFields = new Set();
+            res.validationErrors.forEach((err) => {
+              let fieldName =
+                err.propertyName.charAt(0).toLowerCase() + err.propertyName.slice(1);
 
-          if (fieldName === "countryCode") fieldName = "phoneNumber";
+              if (fieldName === "countryCode") fieldName = "phoneNumber";
 
-          if (!handledFields.has(fieldName)) {
-            setError(fieldName, { type: "server", message: err.errorMessage });
-            handledFields.add(fieldName);
+              if (!handledFields.has(fieldName)) {
+                setError(fieldName, { type: "server", message: err.errorMessage });
+                handledFields.add(fieldName);
+              }
+            });
           }
-        });
-      }
-    });
+
+          setErrorMsg(res?.message);
+        }
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -241,12 +258,15 @@ export const Login = () => {
           </Link>
         </div>
 
-        <button
-          type="submit"
-          className="font-ibm-semiBold mt-2 h-14 w-full cursor-pointer rounded-2xl bg-[#00512E] text-lg text-white shadow-lg transition-all hover:bg-[#003D22] active:scale-[0.98] md:mt-6"
-        >
-          {+selectedType === UserType.Parent ? t("start_your_day") : t("login_btn")}
-        </button>
+        <p className="font-ibm-medium mt-2 text-start text-xs text-red-500">
+          {t(errorMsg) || "\u00A0"}
+        </p>
+
+        <AppButton
+          className="mt-2!"
+          text={+selectedType === UserType.Parent ? t("start_your_day") : t("login_btn")}
+          loading={loading}
+        />
       </form>
 
       <div className="pt-3 text-center">

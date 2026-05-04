@@ -9,6 +9,7 @@ import { getAllCountriesAsync, registerUserAsync, UserType } from "../store/user
 import { AuthLayout } from "./ui/AuthLayout";
 import { Toaster } from "./ui/Toaster";
 import { PhoneNumberInput } from "./ui/PhoneNumberInput";
+import { AppButton } from "./ui/AppButton";
 import { countryFlags } from "../utils/constants";
 
 export const Register = () => {
@@ -16,6 +17,7 @@ export const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { countriesList } = useSelector((state) => state.user);
+  const [loading, setLoading] = useState(false);
   const [showToaster, setShowToaster] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -70,12 +72,12 @@ export const Register = () => {
   }, []);
 
   const onSubmit = (data) => {
+    setLoading(true);
     dispatch(registerUserAsync(data))
-      .unwrap()
       .then((res) => {
         if (res.isSuccess) {
           setShowToaster(true);
-          setTimeout(() => navigate(`/login?userType=${UserType.SchoolOwner}`), 3000);
+          setTimeout(() => navigate(`/login?userType=${UserType.SchoolOwner}`), 1500);
         } else {
           if (res.validationErrors) {
             const handledFields = new Set();
@@ -92,7 +94,8 @@ export const Register = () => {
             });
           }
         }
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -381,12 +384,7 @@ export const Register = () => {
           </div>
         </div>
 
-        <button
-          type="submit"
-          className="font-ibm-semiBold mt-6 h-14 w-full cursor-pointer rounded-2xl bg-[#00512E] text-lg text-white shadow-lg transition-all hover:bg-[#003D22] active:scale-[0.98]"
-        >
-          {t("create_account")}
-        </button>
+        <AppButton text={t("create_account")} loading={loading} />
       </form>
 
       <div className="mt-4 text-center">
